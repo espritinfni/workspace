@@ -1,0 +1,38 @@
+{
+    "name": "Android Dev Environment",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21",
+            "installGradle": "true",
+            "installMaven": "false"
+        }
+    },
+    "forwardPorts": [6080, 5901],
+    "portsAttributes": {
+        "6080": {
+            "label": "noVNC",
+            "onAutoForward": "openBrowser"
+        },
+        "5901": {
+            "label": "VNC",
+            "onAutoForward": "ignore"
+        }
+    },
+    "containerEnv": {
+        "ANDROID_HOME": "/home/codespace/android-sdk",
+        "PATH": "/home/codespace/android-sdk/cmdline-tools/latest/bin:/home/codespace/android-sdk/platform-tools:/home/codespace/android-sdk/emulator:${localEnv:PATH}"
+    },
+    "postCreateCommand": "chmod +x .devcontainer/*.sh && bash .devcontainer/setup-android.sh",
+    "postStartCommand": "nohup bash .devcontainer/start-services.sh > /tmp/start-services.log 2>&1 &",
+    "remoteUser": "codespace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack"
+            ]
+        }
+    }
+}
